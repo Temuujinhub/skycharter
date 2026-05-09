@@ -1,0 +1,87 @@
+name: Deploy to DigitalOcean droplet
+
+on:
+  push:
+    branches:
+      - claude/skycharter-mongolia-deploy-cjJGs
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-droplet
+  cancel-in-progress: false
+
+env:
+  DROPLET_HOST: 168.144.41.111
+  DROPLET_USER: root
+  APP_DIR: /opt/skycharter
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ env.DROPLET_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Ensure droplet prerequisites (docker, git)
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ env.DROPLET_USER }}@${{ env.DROPLET_HOST }} bash <<'EOF'
+            set -e
+            if ! command -v docker >/dev/null 2>&1; then
+              apt-get update -y
+              apt-get install -y docker.io docker-compose-plugin git
+              systemctl enable --now docker
+            fi
+            mkdir -p ${{ env.APP_DIR }}
+          EOF
+
+      - name: Sync repository to droplet
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ env.DROPLET_USER }}@${{ env.DROPLET_HOST }} bash <<'EOF'
+            set -e
+            cd ${{ env.APP_DIR }}
+            if [ ! -d .git ]; then
+              git clone https://github.com/${{ github.repository }}.git .
+            fi
+            git fetch --all --prune
+            git checkout -B ${{ github.ref_name }}
+            git reset --hard origin/${{ github.ref_name }}
+          EOF
+
+      - name: Write production env on droplet
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ env.DROPLET_USER }}@${{ env.DROPLET_HOST }} bash <<EOF
+            set -e
+            cat > ${{ env.APP_DIR }}/deploy/.env.production <<ENV
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          NEXTAUTH_URL=http://${{ env.DROPLET_HOST }}
+          NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+          ENV
+            chmod 600 ${{ env.APP_DIR }}/deploy/.env.production
+          EOF
+
+      - name: Build and start stack
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ env.DROPLET_USER }}@${{ env.DROPLET_HOST }} bash <<'EOF'
+            set -e
+            cd ${{ env.APP_DIR }}
+            bash deploy/deploy.sh
+          EOF
+
+      - name: Smoke test
+        run: |
+          for i in 1 2 3 4 5; do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" http://${{ env.DROPLET_HOST }}/ || echo 000)
+            echo "Attempt $i: HTTP $CODE"
+            if [ "$CODE" = "200" ]; then exit 0; fi
+            sleep 5
+          done
+          echo "Site did not return 200"
+          exit 1
