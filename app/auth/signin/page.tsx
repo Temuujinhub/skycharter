@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { Plane } from "lucide-react";
+import Image from "next/image";
 import { useLocale } from "@/components/shared/LocaleProvider";
 
 export default function SignInPage() {
@@ -32,7 +32,12 @@ export default function SignInPage() {
       <div className="hidden lg:block relative bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=80')" }}>
         <div className="absolute inset-0 hero-overlay" />
         <div className="absolute bottom-12 left-12 right-12 text-white">
-          <div className="flex items-center gap-2 font-semibold mb-3"><Plane className="w-5 h-5 text-gold-300" /> Sky Charter Mongolia</div>
+          <div className="flex items-center gap-2.5 font-semibold mb-3">
+            <span className="grid place-items-center w-10 h-10 rounded-lg bg-white p-1.5">
+              <Image src="/images/logo-mark.png" alt="Sky Charter Mongolia" width={32} height={32} className="w-full h-full object-contain" />
+            </span>
+            Sky Charter Mongolia
+          </div>
           <h2 className="text-4xl font-bold leading-tight">Тэнгэр бол хязгаар, бид бол таны хувийн зам.</h2>
         </div>
       </div>

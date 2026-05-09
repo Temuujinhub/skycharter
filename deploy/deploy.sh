@@ -48,6 +48,10 @@ else
   echo "ℹ️  DB already seeded ($COUNT users), skipping."
 fi
 
+# Idempotent post-deploy data fixups (e.g. updated aircraft photos)
+echo "🔧 Running post-deploy updates…"
+docker compose -f deploy/docker-compose.yml --env-file deploy/.env.production exec -T app npx tsx prisma/post-deploy.ts || echo "ℹ️  post-deploy skipped"
+
 echo ""
 echo "✅ Deploy complete."
 echo "   → http://168.144.41.111"

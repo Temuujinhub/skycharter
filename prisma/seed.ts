@@ -52,7 +52,7 @@ async function main() {
   // ── Aircraft ─────────────────────────────────────────
   const cessna = await prisma.aircraft.create({
     data: {
-      tailNumber: "JU-3145",
+      tailNumber: "JU-3999",
       model: "Cessna 208B EX (Caravan)",
       capacity: 8,
       hourlyRate: 2000,
@@ -60,14 +60,14 @@ async function main() {
       rangeKm: 1700,
       cargoKg: 1300,
       status: "ACTIVE",
-      imageUrl: "https://images.unsplash.com/photo-1583500178690-f7eb09e7c5b7?auto=format&fit=crop&w=1600&q=80",
+      imageUrl: "/images/aircraft-cessna.jpg",
       description: "Шороон зурваст буух чадвартай, Монголын нөхцөлд хамгийн тохиромжтой турбопроп онгоц.",
       descriptionEn: "Rugged turboprop able to land on dirt strips — perfect for Mongolian terrain.",
     },
   });
   const helo = await prisma.aircraft.create({
     data: {
-      tailNumber: "JU-7705",
+      tailNumber: "JU-6999",
       model: "Airbus H145T2",
       capacity: 5,
       hourlyRate: 3200,
@@ -75,7 +75,7 @@ async function main() {
       rangeKm: 700,
       cargoKg: 600,
       status: "ACTIVE",
-      imageUrl: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=1600&q=80",
+      imageUrl: "/images/aircraft-h145.jpg",
       description: "Хос хөдөлгүүртэй, аюулгүй байдал өндөр, богино зайд буух чадвартай VIP нисдэг тэрэг.",
       descriptionEn: "Twin-engine VIP helicopter with high safety standards and short-field landing.",
     },

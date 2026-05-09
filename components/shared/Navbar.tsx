@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { useLocale } from "./LocaleProvider";
-import { Plane, Menu, X, LogOut, User } from "lucide-react";
+import { Menu, X, LogOut, User } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 export function Navbar({ transparent = false }: { transparent?: boolean }) {
   const { t } = useLocale();
@@ -33,9 +34,16 @@ export function Navbar({ transparent = false }: { transparent?: boolean }) {
       }`}
     >
       <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-semibold">
-          <span className={`grid place-items-center w-9 h-9 rounded-lg ${transparent ? "bg-white/15" : "bg-navy-800 text-white"}`}>
-            <Plane className="w-4 h-4" />
+        <Link href="/" className="flex items-center gap-2.5 font-semibold">
+          <span className={`grid place-items-center w-10 h-10 rounded-lg p-1.5 ${transparent ? "bg-white/15 backdrop-blur" : "bg-white ring-1 ring-[rgb(var(--border))]"}`}>
+            <Image
+              src="/images/logo-mark.png"
+              alt="Sky Charter Mongolia"
+              width={32}
+              height={32}
+              className="w-full h-full object-contain"
+              priority
+            />
           </span>
           <span className="hidden sm:block tracking-tight">Sky Charter Mongolia</span>
           <span className="sm:hidden tracking-tight">SCM</span>

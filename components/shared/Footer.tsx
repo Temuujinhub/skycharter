@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Plane, Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { useLocale } from "./LocaleProvider";
 
 export function Footer() {
@@ -10,9 +11,9 @@ export function Footer() {
     <footer className="bg-navy-900 text-navy-100 mt-20">
       <div className="max-w-7xl mx-auto px-5 lg:px-8 py-14 grid lg:grid-cols-4 gap-10">
         <div>
-          <div className="flex items-center gap-2 font-semibold text-white">
-            <span className="grid place-items-center w-9 h-9 rounded-lg bg-gold-400 text-navy-900">
-              <Plane className="w-4 h-4" />
+          <div className="flex items-center gap-2.5 font-semibold text-white">
+            <span className="grid place-items-center w-10 h-10 rounded-lg bg-white p-1.5">
+              <Image src="/images/logo-mark.png" alt="Sky Charter Mongolia" width={32} height={32} className="w-full h-full object-contain" />
             </span>
             <span>Sky Charter Mongolia</span>
           </div>
