@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: skycharter
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-skycharter}
+      POSTGRES_DB: skycharter
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U skycharter -d skycharter"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - scm
+
+  app:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://skycharter:${POSTGRES_PASSWORD:-skycharter}@postgres:5432/skycharter?schema=public
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://168.144.41.111}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - scm
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - scm
+
+networks:
+  scm:
+
+volumes:
+  pgdata:
