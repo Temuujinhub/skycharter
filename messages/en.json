@@ -1,0 +1,181 @@
+{
+  "brand": {
+    "name": "Sky Charter Mongolia",
+    "tagline": "The sky on your terms"
+  },
+  "nav": {
+    "fleet": "Fleet",
+    "routes": "Routes",
+    "emptyLegs": "Empty legs",
+    "about": "About",
+    "contact": "Contact",
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "dashboard": "My flights",
+    "admin": "Admin",
+    "crew": "Crew",
+    "signout": "Sign out"
+  },
+  "hero": {
+    "eyebrow": "Premium private aviation",
+    "title": "Mongolia's sky, your private runway",
+    "subtitle": "From Chinggis Khaan International to Khuvsgul, the Gobi or the Altai — fly when you want, where you want.",
+    "ctaSearch": "Get an instant quote",
+    "ctaFleet": "Explore the fleet"
+  },
+  "search": {
+    "from": "From",
+    "to": "To",
+    "when": "When",
+    "pax": "Passengers",
+    "fromPlaceholder": "e.g. Chinggis Khaan Intl.",
+    "toPlaceholder": "e.g. Khuvsgul",
+    "submit": "Get instant quote",
+    "noResults": "No matching aircraft"
+  },
+  "fleet": {
+    "title": "Our aircraft fleet",
+    "subtitle": "Modern aircraft built for Mongolia's terrain",
+    "capacity": "Capacity",
+    "speed": "Cruise speed",
+    "range": "Range",
+    "cargo": "Cargo",
+    "hourly": "Hourly rate",
+    "passengers": "passengers",
+    "kmh": "km/h",
+    "km": "km",
+    "kg": "kg",
+    "perHour": "/hour",
+    "select": "Charter this aircraft"
+  },
+  "routes": {
+    "title": "Popular routes",
+    "subtitle": "Reach Mongolia's most beautiful corners in hours, not days",
+    "popular": "Popular",
+    "from": "from"
+  },
+  "whyUs": {
+    "title": "Why Sky Charter Mongolia?",
+    "items": [
+      { "title": "Luxury service", "desc": "VIP-grade service with a personal concierge." },
+      { "title": "Flexible schedule", "desc": "Fly whenever, from any airfield." },
+      { "title": "Safety first", "desc": "International maintenance standards, seasoned pilots." },
+      { "title": "Transparent pricing", "desc": "No hidden fees, instant quotes." }
+    ]
+  },
+  "emptyLegs": {
+    "title": "Empty leg specials",
+    "subtitle": "Book one-way return flights at 50–75% off",
+    "save": "save",
+    "originalPrice": "Regular price",
+    "book": "Book now",
+    "departing": "Departs"
+  },
+  "booking": {
+    "step1": "Route",
+    "step2": "Aircraft",
+    "step3": "Confirm",
+    "summary": "Booking summary",
+    "distance": "Distance",
+    "duration": "Flight time",
+    "basePrice": "Base price",
+    "fees": "Airport fees",
+    "discount": "Discount",
+    "total": "Total",
+    "next": "Continue",
+    "back": "Back",
+    "passengerInfo": "Passenger info",
+    "fullName": "Full name",
+    "phone": "Phone",
+    "email": "Email",
+    "document": "ID / Passport",
+    "addPassenger": "Add passenger",
+    "paymentMethod": "Payment method",
+    "qpay": "QPay",
+    "card": "Card (Visa/Mastercard)",
+    "socialpay": "SocialPay",
+    "invoice": "Invoice",
+    "pay": "Pay",
+    "confirmed": "Booking confirmed",
+    "ticketCode": "Ticket code",
+    "scanToPay": "Scan the QR code to pay",
+    "mockNote": "This is a demo payment — no real money is charged."
+  },
+  "auth": {
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "submit": "Continue",
+    "noAccount": "No account yet?",
+    "haveAccount": "Already registered?",
+    "signinError": "Invalid email or password.",
+    "demoCredentials": "Demo: admin@skycharter.mn / Admin@2026"
+  },
+  "admin": {
+    "title": "Admin dashboard",
+    "bookings": "Bookings",
+    "fleet": "Fleet",
+    "locations": "Locations & fees",
+    "users": "Users",
+    "emptyLegs": "Empty legs",
+    "reports": "Reports",
+    "totalRevenue": "Total revenue",
+    "activeBookings": "Active bookings",
+    "totalFlights": "Total flights",
+    "fleetUtilization": "Fleet utilization",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "addAircraft": "Add aircraft",
+    "addLocation": "Add location"
+  },
+  "crew": {
+    "title": "Crew portal",
+    "todayFlights": "Today's flights",
+    "manifest": "Flight manifest",
+    "logbook": "Logbook",
+    "weather": "Weather",
+    "passengers": "Passengers",
+    "totalWeight": "Total weight",
+    "engineStart": "Engine start",
+    "takeoff": "Takeoff",
+    "landing": "Landing",
+    "engineStop": "Engine stop",
+    "fuel": "Fuel (L)",
+    "save": "Save"
+  },
+  "status": {
+    "PENDING": "Pending",
+    "CONFIRMED": "Confirmed",
+    "COMPLETED": "Completed",
+    "CANCELLED": "Cancelled",
+    "PAID": "Paid",
+    "FAILED": "Failed",
+    "REFUNDED": "Refunded",
+    "ACTIVE": "Active",
+    "MAINTENANCE": "Maintenance",
+    "INACTIVE": "Inactive",
+    "AVAILABLE": "Available",
+    "BOOKED": "Booked",
+    "EXPIRED": "Expired"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "contactUs": "Contact us",
+    "phone": "+976 11 326 730",
+    "email": "skychartermongolia@gmail.com",
+    "address": "Chinggis Khaan Intl. Airport, Ulaanbaatar, Mongolia"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "viewAll": "View all"
+  }
+}

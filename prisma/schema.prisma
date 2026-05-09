@@ -1,0 +1,201 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+  PILOT
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  QPAY
+  CARD
+  SOCIALPAY
+  INVOICE
+}
+
+enum AircraftStatus {
+  ACTIVE
+  MAINTENANCE
+  INACTIVE
+}
+
+enum LocationType {
+  AIRPORT
+  HELIPAD
+  DIRT
+}
+
+enum EmptyLegStatus {
+  AVAILABLE
+  BOOKED
+  EXPIRED
+}
+
+model User {
+  id            String     @id @default(cuid())
+  email         String     @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  phone         String?
+  role          Role       @default(CUSTOMER)
+  vipMember     Boolean    @default(false)
+  createdAt     DateTime   @default(now())
+  bookings      Booking[]  @relation("CustomerBookings")
+  flightLogs    FlightLog[]
+}
+
+model Aircraft {
+  id           String         @id @default(cuid())
+  tailNumber   String         @unique
+  model        String
+  capacity     Int
+  hourlyRate   Decimal        @db.Decimal(10, 2)
+  cruiseSpeed  Int            // km/h
+  status       AircraftStatus @default(ACTIVE)
+  imageUrl     String?
+  description  String?
+  descriptionEn String?
+  rangeKm      Int            @default(1000)
+  cargoKg      Int            @default(500)
+  bookings     Booking[]
+  emptyLegs    EmptyLeg[]
+  maintenance  Maintenance[]
+  createdAt    DateTime       @default(now())
+}
+
+model Location {
+  id              String     @id @default(cuid())
+  name            String
+  nameEn          String
+  lat             Float
+  lng             Float
+  landingFee      Decimal    @db.Decimal(10, 2) @default(0)
+  type            LocationType @default(AIRPORT)
+  iataCode        String?    @unique
+  region          String?
+  description     String?
+  bookingsFrom    Booking[]  @relation("DepartureLoc")
+  bookingsTo      Booking[]  @relation("ArrivalLoc")
+  emptyLegsFrom   EmptyLeg[] @relation("EmptyLegFrom")
+  emptyLegsTo     EmptyLeg[] @relation("EmptyLegTo")
+}
+
+model Booking {
+  id                String        @id @default(cuid())
+  bookingCode       String        @unique
+  userId            String?
+  user              User?         @relation("CustomerBookings", fields: [userId], references: [id])
+  guestEmail        String?
+  guestName         String?
+  guestPhone        String?
+  aircraftId        String
+  aircraft          Aircraft      @relation(fields: [aircraftId], references: [id])
+  departureLocId    String
+  departureLoc      Location      @relation("DepartureLoc", fields: [departureLocId], references: [id])
+  arrivalLocId      String
+  arrivalLoc        Location      @relation("ArrivalLoc", fields: [arrivalLocId], references: [id])
+  departureTime     DateTime
+  returnTime        DateTime?
+  paxCount          Int
+  estFlightMinutes  Int
+  distanceKm        Float
+  basePrice         Decimal       @db.Decimal(12, 2)
+  fees              Decimal       @db.Decimal(12, 2)
+  totalPrice        Decimal       @db.Decimal(12, 2)
+  status            BookingStatus @default(PENDING)
+  notes             String?
+  isEmptyLeg        Boolean       @default(false)
+  emptyLegId        String?       @unique
+  emptyLeg          EmptyLeg?     @relation(fields: [emptyLegId], references: [id])
+  passengers        Passenger[]
+  payment           Payment?
+  flightLog         FlightLog?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+}
+
+model Passenger {
+  id          String  @id @default(cuid())
+  bookingId   String
+  booking     Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  fullName    String
+  document    String?
+  weightKg    Float?
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  bookingId     String        @unique
+  booking       Booking       @relation(fields: [bookingId], references: [id])
+  amount        Decimal       @db.Decimal(12, 2)
+  method        PaymentMethod
+  status        PaymentStatus @default(PENDING)
+  qrCode        String?
+  txReference   String?
+  paidAt        DateTime?
+  createdAt     DateTime      @default(now())
+}
+
+model EmptyLeg {
+  id              String         @id @default(cuid())
+  aircraftId      String
+  aircraft        Aircraft       @relation(fields: [aircraftId], references: [id])
+  fromLocId       String
+  fromLoc         Location       @relation("EmptyLegFrom", fields: [fromLocId], references: [id])
+  toLocId         String
+  toLoc           Location       @relation("EmptyLegTo", fields: [toLocId], references: [id])
+  departureTime   DateTime
+  originalPrice   Decimal        @db.Decimal(12, 2)
+  discountedPrice Decimal        @db.Decimal(12, 2)
+  discountPct     Int
+  status          EmptyLegStatus @default(AVAILABLE)
+  booking         Booking?
+  createdAt       DateTime       @default(now())
+}
+
+model FlightLog {
+  id              String   @id @default(cuid())
+  bookingId       String   @unique
+  booking         Booking  @relation(fields: [bookingId], references: [id])
+  pilotId         String
+  pilot           User     @relation(fields: [pilotId], references: [id])
+  engineStartAt   DateTime?
+  takeoffAt       DateTime?
+  landingAt       DateTime?
+  engineStopAt    DateTime?
+  fuelUsedLiters  Float?
+  notes           String?
+  createdAt       DateTime @default(now())
+}
+
+model Maintenance {
+  id            String    @id @default(cuid())
+  aircraftId    String
+  aircraft      Aircraft  @relation(fields: [aircraftId], references: [id])
+  scheduledAt   DateTime
+  completedAt   DateTime?
+  type          String
+  notes         String?
+}

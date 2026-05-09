@@ -1,0 +1,16 @@
+node_modules
+.next
+out
+dist
+.env
+.env.local
+.env.production
+*.log
+.DS_Store
+.vscode
+.idea
+prisma/dev.db*
+deploy/.env.production
+deploy/private_key
+*.pem
+tsconfig.tsbuildinfo
