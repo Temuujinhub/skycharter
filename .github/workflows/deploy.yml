@@ -34,12 +34,26 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key ${{ env.DROPLET_USER }}@${{ env.DROPLET_HOST }} bash <<'EOF'
             set -e
+            export DEBIAN_FRONTEND=noninteractive
+            apt-get update -y
+            apt-get install -y --no-install-recommends git curl ca-certificates
             if ! command -v docker >/dev/null 2>&1; then
-              apt-get update -y
-              apt-get install -y docker.io docker-compose-plugin git
+              curl -fsSL https://get.docker.com | sh
               systemctl enable --now docker
             fi
+            if ! docker compose version >/dev/null 2>&1; then
+              # Fallback: install compose plugin from Docker apt repo
+              install -m 0755 -d /etc/apt/keyrings
+              curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+              chmod a+r /etc/apt/keyrings/docker.asc
+              . /etc/os-release
+              echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $VERSION_CODENAME stable" > /etc/apt/sources.list.d/docker.list
+              apt-get update -y
+              apt-get install -y docker-compose-plugin
+            fi
             mkdir -p ${{ env.APP_DIR }}
+            docker --version
+            docker compose version
           EOF
 
       - name: Sync repository to droplet
