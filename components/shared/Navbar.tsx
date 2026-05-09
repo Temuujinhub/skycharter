@@ -37,7 +37,7 @@ export function Navbar({ transparent = false }: { transparent?: boolean }) {
         <Link href="/" className="flex items-center gap-2.5 font-semibold">
           <span className={`grid place-items-center w-10 h-10 rounded-lg p-1.5 ${transparent ? "bg-white/15 backdrop-blur" : "bg-white ring-1 ring-[rgb(var(--border))]"}`}>
             <Image
-              src="/images/logo-mark.png"
+              src="/skycharter_logo.jpg"
               alt="Sky Charter Mongolia"
               width={32}
               height={32}

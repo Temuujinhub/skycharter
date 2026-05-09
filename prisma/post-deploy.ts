@@ -8,12 +8,12 @@ const updates: Array<{ matchModel: RegExp; tailNumber: string; imageUrl: string 
   {
     matchModel: /Cessna/i,
     tailNumber: "JU-3999",
-    imageUrl: "/images/aircraft-cessna.jpg",
+    imageUrl: "/cess.jpg",
   },
   {
     matchModel: /H145|Airbus/i,
     tailNumber: "JU-6999",
-    imageUrl: "/images/aircraft-h145.jpg",
+    imageUrl: "/hella.jpg",
   },
 ];
 

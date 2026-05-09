@@ -13,7 +13,7 @@ export function Footer() {
         <div>
           <div className="flex items-center gap-2.5 font-semibold text-white">
             <span className="grid place-items-center w-10 h-10 rounded-lg bg-white p-1.5">
-              <Image src="/images/logo-mark.png" alt="Sky Charter Mongolia" width={32} height={32} className="w-full h-full object-contain" />
+              <Image src="/skycharter_logo.jpg" alt="Sky Charter Mongolia" width={32} height={32} className="w-full h-full object-contain" />
             </span>
             <span>Sky Charter Mongolia</span>
           </div>

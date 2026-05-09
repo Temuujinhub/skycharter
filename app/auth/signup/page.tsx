@@ -36,7 +36,7 @@ export default function SignUpPage() {
         <div className="absolute bottom-12 left-12 right-12 text-white">
           <div className="flex items-center gap-2.5 font-semibold mb-3">
             <span className="grid place-items-center w-10 h-10 rounded-lg bg-white p-1.5">
-              <Image src="/images/logo-mark.png" alt="Sky Charter Mongolia" width={32} height={32} className="w-full h-full object-contain" />
+              <Image src="/skycharter_logo.jpg" alt="Sky Charter Mongolia" width={32} height={32} className="w-full h-full object-contain" />
             </span>
             Sky Charter Mongolia
           </div>
