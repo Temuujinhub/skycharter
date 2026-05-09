@@ -17,9 +17,9 @@ if [[ ! -f deploy/.env.production ]]; then
   exit 1
 fi
 
-set -a
-source deploy/.env.production
-set +a
+# Note: we deliberately do NOT `source` the env file here — values may contain
+# spaces or special characters (e.g. base64 secrets with '+' '/' '=').
+# Docker Compose reads the file directly via --env-file, which is robust.
 
 echo "🛠  Building images…"
 docker compose -f deploy/docker-compose.yml --env-file deploy/.env.production build
